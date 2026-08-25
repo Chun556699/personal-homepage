@@ -31,12 +31,16 @@ jobs:
       - name: Static export build
         run: node scripts/build-static.mjs
         env:
-          # 默认部署在 https://<owner>.github.io/<repo>/ 子路径下；
-          # 绑定自定义域名后站点在根路径 —— 在仓库 Variables 里设：
-          #   PAGES_BASE_PATH 留空/不设（根路径），SITE_URL=https://你的域名，CUSTOM_DOMAIN=你的域名
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.PAGES_BASE_PATH || format('/{0}', github.event.repository.name) }}
-          NEXT_PUBLIC_SERVER_URL: ${{ vars.SITE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+          # 仓库 Variables（可选）：
+          #   CUSTOM_DOMAIN   自定义域名（如 www.oooe.me）→ 自动根路径部署 + 写入 CNAME
+          #   SITE_URL        站点公开 URL（默认按 CUSTOM_DOMAIN 或 github.io 推导）
+          #   PAGES_BASE_PATH 强制指定子路径（一般不必设）
+          # 未设任何变量时：部署在 https://<owner>.github.io/<repo>/ 子路径下
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          PAGES_BASE_PATH: ${{ vars.PAGES_BASE_PATH }}
+          DEFAULT_BASE_PATH: /${{ github.event.repository.name }}
+          DEFAULT_SERVER_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
           NEXT_TELEMETRY_DISABLED: '1'
 
       - uses: actions/upload-pages-artifact@v3

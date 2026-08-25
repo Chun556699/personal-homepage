@@ -54,9 +54,25 @@ function main() {
     }
 
     console.log('▸ 静态导出构建中（STATIC_EXPORT=1）…')
+
+    // 解析部署形态：
+    // - 设置了 CUSTOM_DOMAIN → 根路径部署（basePath 为空，站点位于 /）
+    // - 否则 → 子路径部署（默认 /<仓库名>，可用 PAGES_BASE_PATH 覆盖）
+    const customDomain = process.env.CUSTOM_DOMAIN?.trim()
+    const resolvedBasePath =
+      process.env.PAGES_BASE_PATH?.trim() || (customDomain ? '' : (process.env.DEFAULT_BASE_PATH || '/personal-homepage'))
+    const resolvedServerUrl =
+      process.env.SITE_URL?.trim() || (customDomain ? `https://${customDomain}` : (process.env.DEFAULT_SERVER_URL || 'http://localhost:3000'))
+    console.log(`▸ 部署形态: basePath=[${resolvedBasePath || '根路径'}] siteUrl=[${resolvedServerUrl}]`)
+
     execSync('npx next build', {
       stdio: 'inherit',
-      env: { ...process.env, STATIC_EXPORT: '1' },
+      env: {
+        ...process.env,
+        STATIC_EXPORT: '1',
+        NEXT_PUBLIC_BASE_PATH: resolvedBasePath,
+        NEXT_PUBLIC_SERVER_URL: resolvedServerUrl,
+      },
     })
 
     // GitHub Pages 需要 .nojekyll 才能提供 _next/ 下的资源

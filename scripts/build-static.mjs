@@ -79,7 +79,6 @@ function main() {
     fs.writeFileSync(path.join(outDir, '.nojekyll'), '')
 
     // 自定义域名：CNAME 文件让 GitHub Pages 将域名绑定持久化在发布产物中
-    const customDomain = process.env.CUSTOM_DOMAIN?.trim()
     if (customDomain) {
       fs.writeFileSync(path.join(outDir, 'CNAME'), customDomain + '\n')
       console.log(`▸ 已写入 CNAME: ${customDomain}`)

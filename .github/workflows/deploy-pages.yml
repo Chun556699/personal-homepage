@@ -31,9 +31,12 @@ jobs:
       - name: Static export build
         run: node scripts/build-static.mjs
         env:
-          # 项目页部署在 https://<owner>.github.io/<repo>/ 子路径下
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          NEXT_PUBLIC_SERVER_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          # 默认部署在 https://<owner>.github.io/<repo>/ 子路径下；
+          # 绑定自定义域名后站点在根路径 —— 在仓库 Variables 里设：
+          #   PAGES_BASE_PATH 留空/不设（根路径），SITE_URL=https://你的域名，CUSTOM_DOMAIN=你的域名
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.PAGES_BASE_PATH || format('/{0}', github.event.repository.name) }}
+          NEXT_PUBLIC_SERVER_URL: ${{ vars.SITE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
           NEXT_TELEMETRY_DISABLED: '1'
 
       - uses: actions/upload-pages-artifact@v3

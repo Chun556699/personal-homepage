@@ -61,6 +61,14 @@ function main() {
 
     // GitHub Pages 需要 .nojekyll 才能提供 _next/ 下的资源
     fs.writeFileSync(path.join(outDir, '.nojekyll'), '')
+
+    // 自定义域名：CNAME 文件让 GitHub Pages 将域名绑定持久化在发布产物中
+    const customDomain = process.env.CUSTOM_DOMAIN?.trim()
+    if (customDomain) {
+      fs.writeFileSync(path.join(outDir, 'CNAME'), customDomain + '\n')
+      console.log(`▸ 已写入 CNAME: ${customDomain}`)
+    }
+
     console.log(`✓ 构建完成：${outDir}`)
   } finally {
     // 还原段配置

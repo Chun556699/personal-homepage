@@ -83,6 +83,30 @@ GitHub Pages 无法运行数据库，静态模式下文章读取自仓库内 `sr
 
 相关命令：`npm run build:static` 可在本地验证静态导出产物（输出到 `out/`）。
 
+### 绑定自己的域名
+
+1. **域名服务商 DNS 设置**（二选一或都配，生效需几分钟～48小时）：
+
+   | 记录类型 | 主机记录 | 记录值 |
+   |---------|---------|--------|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | CNAME | `www` | `chun556699.github.io` |
+
+2. **仓库配置变量**：Settings → Secrets and variables → Actions → Variables 标签页，添加：
+
+   | 变量名 | 值（示例） |
+   |-------|-----------|
+   | `CUSTOM_DOMAIN` | `www.yourdomain.com` |
+   | `SITE_URL` | `https://www.yourdomain.com` |
+
+   > 不设 `PAGES_BASE_PATH` 即按根路径部署（自定义域名下站点位于 `/` 而非子路径）。
+
+3. 手动触发重新部署：Actions → Deploy to GitHub Pages → Run workflow；或随便 push 一次
+4. DNS 生效后到 Settings → Pages 勾选 **Enforce HTTPS**
+
 ## ☁️ 部署到 Vercel
 
 ### 方式一：纯静态内容（推荐起步，零配置）

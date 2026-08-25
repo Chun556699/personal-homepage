@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env*
+dev-server.log
+payload.db
+media
+data

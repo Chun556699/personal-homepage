@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 个人主页 · 博客 · 后台管理
 
-## Getting Started
+一个**高性能、极简设计**的个人主页网站：排版驱动的干净视觉、近乎全静态的渲染策略、优雅的内容降级。使用 Next.js 16 + Payload CMS + Tailwind CSS 4 构建。
 
-First, run the development server:
+## ✨ 特性
+
+### 性能
+- **静态优先** — 首页/博客/文章页全部预渲染（ISR 增量再生），TTFB 极低，CDN 直接命中
+- **零重运行时** — 无 Chakra UI、无 framer-motion、无 Lenis；动效仅用 ~1KB 的 IntersectionObserver 渐显组件 + 纯 CSS
+- **自托管字体** — Geist 字体经 `next/font` 自托管并含中文回退栈，零布局偏移
+- **尊重系统偏好** — 深浅色主题跟随系统，支持"减弱动态效果"
+
+### 设计
+- 排版驱动的极简编辑风：单栏内容、细分隔线、克制的紫罗兰点缀色
+- 首屏纯 CSS 背景（渐变光晕 + 点阵网格），零 canvas 开销
+- 滚动渐显节奏感、悬停微交互，全部 CSS transition 实现
+
+### 内容
+- **双内容源** — 个人信息/项目/技能在 `src/lib/site.ts` 一处配置；博客文章由 Payload CMS 管理
+- **优雅降级** — Vercel 上没有数据库时，站点照常完整渲染默认内容；博客显示引导空态
+- **SEO 全套** — Open Graph / Twitter Card / JSON-LD / `sitemap.xml` / `robots.txt` / RSS (`/feed.xml`)
+
+### 后台
+- Payload CMS 管理面板（`/admin`）：可视化发布文章（Lexical 富文本）、标签、草稿/发布状态
+- 本地 SQLite 零依赖起步，一条环境变量切换到 Turso 云数据库
+
+## 🛠 技术栈
+
+| 类别 | 技术 |
+|------|------|
+| 框架 | Next.js 16 (App Router) + React 19 |
+| 样式 | Tailwind CSS 4 + @tailwindcss/typography |
+| 动效 | 自绘 IntersectionObserver Reveal 组件（~1KB） |
+| CMS | Payload 3.88（Lexical 富文本） |
+| 数据库 | SQLite（本地文件 / Docker 卷 / Turso 远程） |
+
+## 🚀 快速开始
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env   # 本地开发保持默认即可
+npm run dev            # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| 地址 | 说明 |
+|------|------|
+| `/` | 主页 |
+| `/blog` | 博客列表 |
+| `/blog/[slug]` | 文章详情 |
+| `/admin` | 管理后台（首次访问创建管理员） |
+| `/feed.xml` | RSS 订阅 |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✏️ 修改你的个人信息
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+所有前台展示的个人信息集中在 **`src/lib/site.ts`**：
 
-## Learn More
+- 姓名、头衔、简介、邮箱
+- GitHub / X 链接
+- 项目列表（名称、描述、标签、链接）
+- 技术栈标签
 
-To learn more about Next.js, take a look at the following resources:
+改完 `git push` 即自动部署生效。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ☁️ 部署到 GitHub Pages（免费静态托管）
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> 适合纯展示型站点：无需任何服务器/数据库，push 即发布。
+> 访问地址：`https://<用户名>.github.io/personal-homepage`
 
-## Deploy on Vercel
+1. 仓库推送到 GitHub 后，进入 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**
+2. 完成。`.github/workflows/deploy-pages.yml` 已配置好：每次 push 到 main 自动构建部署
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 静态模式下的博客内容
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub Pages 无法运行数据库，静态模式下文章读取自仓库内 `src/content/posts.json`。两种写作方式：
+
+- **本地后台写作（推荐）**
+  ```bash
+  npm run dev            # 本地 /admin 写作、发布
+  npm run export:posts   # 导出文章到 src/content/posts.json
+  git add . && git commit -m "post: 新文章" && git push   # 自动重新部署
+  ```
+- **直接编辑 JSON**：仿照现有条目修改 `src/content/posts.json` 即可
+
+相关命令：`npm run build:static` 可在本地验证静态导出产物（输出到 `out/`）。
+
+## ☁️ 部署到 Vercel
+
+### 方式一：纯静态内容（推荐起步，零配置）
+
+1. 仓库推送到 GitHub
+2. [vercel.com/new](https://vercel.com/new) 导入仓库，框架自动识别 Next.js
+3. 设置环境变量：
+   - `PAYLOAD_SECRET` = 任意随机长字符串
+   - `NEXT_PUBLIC_SERVER_URL` = 你的正式域名（如 `https://yourname.vercel.app`）
+4. Deploy
+
+> 此模式下站点以静态内容运行（性能最佳）。博客区显示空态提示，`/admin` 无法登录（没有数据库）。
+
+### 方式二：启用云端后台（Turso，免费）
+
+让博客在 Vercel 上真正可写：
+
+```bash
+# 1. 安装 Turso CLI 并创建数据库（免费）
+turso db create homepage
+turso db show homepage --url          # 得到 libsql://... 地址
+turso db tokens create homepage       # 得到 auth token
+
+# 2. 本地生成并向远程库推送表结构（一次性）
+DATABASE_URL=libsql://<url> DATABASE_AUTH_TOKEN=<token> npx payload migrate:create init
+DATABASE_URL=libsql://<url> DATABASE_AUTH_TOKEN=<token> npx payload migrate
+
+# 3. 在 Vercel 项目设置中添加环境变量
+#    DATABASE_URL = libsql://...
+#    DATABASE_AUTH_TOKEN = ...
+#    PAYLOAD_SECRET = ...
+#    NEXT_PUBLIC_SERVER_URL = https://your-domain
+
+# 4. 重新部署后访问 /admin 创建管理员，即可在线发文
+```
+
+> ⚠️ 注意：Serverless 平台的图片上传（Media 集合）不持久化。文章配图建议使用外链图床，或接入 `@payloadcms/plugin-cloud-storage` 等 S3 兼容存储。
+
+### Docker 自托管（备选）
+
+```bash
+docker compose up -d --build
+```
+
+SQLite 与上传图片通过 volume 持久化，后台功能完整可用。
+
+## 📁 项目结构
+
+```
+src/
+├── app/
+│   ├── (frontend)/           # 前台路由组（全静态/ISR）
+│   │   ├── layout.tsx        # 根布局：字体、元数据、主题
+│   │   ├── page.tsx          # 主页
+│   │   ├── blog/             # 博客列表 + 详情
+│   │   ├── not-found.tsx     # 404
+│   │   ├── feed.xml/route.ts # RSS 订阅
+│   │   └── globals.css       # 设计令牌 + 基础样式
+│   ├── robots.ts / sitemap.ts
+│   └── (payload)/            # Payload 后台路由组
+├── collections/              # Users / Media / Posts / Projects
+├── components/site/          # header / footer / reveal / theme-provider
+├── lib/
+│   ├── site.ts               # ⭐ 个人信息与项目配置（SSOT）
+│   └── posts.ts              # 文章数据访问（带优雅降级）
+└── payload.config.ts         # CMS 配置（SQLite/Turso 通吃）
+```
+
+## 📝 常用命令
+
+```bash
+npm run dev              # 开发服务器
+npm run build            # 生产构建
+npm run start            # 生产模式启动
+npm run lint             # ESLint
+npm run payload:types    # 重新生成 Payload 类型
+```

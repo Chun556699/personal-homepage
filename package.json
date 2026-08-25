@@ -3,15 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
+    "dev:turbo": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "payload": "payload",
+    "payload:importmap": "node --experimental-vm-modules --import tsx node_modules/payload/bin.js generate:importmap",
+    "payload:types": "node --experimental-vm-modules --import tsx node_modules/payload/bin.js generate:types",
+    "build:static": "node scripts/build-static.mjs",
+    "export:posts": "node --env-file=.env scripts/export-posts.mjs"
   },
   "dependencies": {
+    "@next/env": "^16.3.1",
+    "@payloadcms/db-sqlite": "^3.88.0",
+    "@payloadcms/next": "^3.88.0",
+    "@payloadcms/richtext-lexical": "^3.88.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "graphql": "^16.14.2",
+    "lucide-react": "^1.32.0",
     "next": "16.3.1",
+    "next-themes": "^0.4.6",
+    "payload": "^3.88.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

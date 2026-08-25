@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "你好，世界：新博客的第一篇文章",
+    "slug": "hello-world",
+    "excerpt": "欢迎来到我的个人主页。这是第一篇文章，用于验证从写作到发布的完整链路。",
+    "tags": ["随笔"],
+    "publishedAt": "2026-08-25T04:00:00.000Z",
+    "status": "published",
+    "content": {
+      "root": {
+        "type": "root",
+        "format": "",
+        "indent": 0,
+        "version": 1,
+        "direction": "ltr",
+        "children": [
+          {
+            "type": "paragraph",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "direction": "ltr",
+            "children": [
+              { "type": "text", "format": 0, "version": 1, "text": "网站正式上线了。这里会记录我的技术思考、项目实践与学习笔记。" },
+              { "type": "text", "format": 3, "version": 1, "text": "感谢你的到来。" }
+            ]
+          },
+          {
+            "type": "heading",
+            "tag": "h2",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "direction": "ltr",
+            "children": [{ "type": "text", "format": 0, "version": 1, "text": "接下来" }]
+          },
+          {
+            "type": "paragraph",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "direction": "ltr",
+            "children": [
+              { "type": "text", "format": 0, "version": 1, "text": "在本地运行管理后台即可写作，导出后推送到 GitHub 自动发布，详见项目 README。" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

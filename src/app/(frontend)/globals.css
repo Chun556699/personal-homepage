@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+}
+
+/* ---------------------------------- 亮色 ---------------------------------- */
+:root {
+  --background: oklch(0.995 0 0);
+  --foreground: oklch(0.185 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.185 0 0);
+  --muted: oklch(0.968 0 0);
+  --muted-foreground: oklch(0.52 0 0);
+  --accent: oklch(0.51 0.211 277.12); /* violet-600 */
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(0.915 0 0);
+  --ring: oklch(0.51 0.211 277.12);
+}
+
+/* ---------------------------------- 暗色 ---------------------------------- */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.94 0 0);
+  --card: oklch(0.185 0 0);
+  --card-foreground: oklch(0.94 0 0);
+  --muted: oklch(0.215 0 0);
+  --muted-foreground: oklch(0.63 0 0);
+  --accent: oklch(0.7 0.16 280); /* violet-400 */
+  --accent-foreground: oklch(0.145 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --ring: oklch(0.7 0.16 280);
+}
+
+/* ---------------------------------- 基础 ---------------------------------- */
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--accent) 25%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* --------------------------- 首屏背景（纯 CSS）--------------------------- */
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+      ellipse 80% 55% at 50% -10%,
+      color-mix(in oklch, var(--accent) 14%, transparent),
+      transparent
+    ),
+    radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-size:
+    100% 100%,
+    24px 24px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, black 35%, transparent 75%);
+}
+
+.dark .hero-backdrop {
+  background-image: radial-gradient(
+      ellipse 80% 55% at 50% -10%,
+      color-mix(in oklch, var(--accent) 18%, transparent),
+      transparent
+    ),
+    radial-gradient(circle at 1px 1px, oklch(1 0 0 / 8%) 1px, transparent 0);
+}
+
+/* ------------------------- 文章排版（Lexical 输出）------------------------- */
+.prose-lexical {
+  --tw-prose-body: color-mix(in oklch, var(--foreground) 88%, transparent);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-quote: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-bg: var(--muted);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+.prose-lexical a {
+  color: var(--accent);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 150ms ease;
+}
+.prose-lexical a:hover {
+  text-decoration-color: var(--accent);
+}

@@ -57,21 +57,15 @@ export const projects: Project[] = [
     href: 'https://github.com/Chun556699/RAG-KnowledgeBase',
   },
   {
-    name: 'AI Gateway',
-    description: '一个 key 聚合多家 AI 服务的中转网关，统一入口管理模型调用。',
-    tags: ['FastAPI', 'LLM', '网关'],
-    href: 'https://github.com/Chun556699/ai-Integration',
-  },
-  {
     name: 'Transformer 并行翻译',
     description: '基于 Transformer 架构的多语言翻译系统，覆盖从模型训练到部署的完整链路。',
     tags: ['PyTorch', 'NLP', 'Transformer'],
     href: 'https://github.com/Chun556699/Transformer-parallel-translation',
   },
   {
-    name: 'AI 简历编辑器',
-    description: '所见即所得的简历编辑器，集成 AI 润色与一键 PDF 导出。',
-    tags: ['Next.js', 'AI', '产品'],
+    name: 'AI 简历制作系统',
+    description: '所见即所得的在线简历系统：8 套模板、矢量 PDF/PNG 导出，DeepSeek 一键生成、JD 定制与旧简历识别。',
+    tags: ['Next.js', 'DeepSeek', 'Zustand'],
     href: 'https://github.com/Chun556699/resume-builder',
   },
   {

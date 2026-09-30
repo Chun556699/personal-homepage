@@ -91,6 +91,14 @@ export default async function HomePage() {
                   >
                     X
                   </a>
+                  <a
+                    href={site.socials.blog}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border px-3.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  >
+                    Blog
+                  </a>
                 </div>
               </div>
             </Reveal>

@@ -3,6 +3,7 @@ import { site } from '@/lib/site'
 const socialLinks = [
   { href: site.socials.github, label: 'GitHub', external: true },
   { href: site.socials.twitter, label: 'X', external: true },
+  { href: site.socials.blog, label: 'Blog', external: true },
   { href: `mailto:${site.email}`, label: 'Email', external: false },
 ] as const
 

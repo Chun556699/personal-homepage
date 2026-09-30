@@ -6,17 +6,18 @@
  */
 
 export const site = {
-  name: 'Chun',
+  name: 'Chunfei',
   handle: 'Chun556699',
-  role: '全栈开发者 · 设计工程师',
-  tagline: '构建快速、优雅的数字产品',
+  role: 'AI 工程师 · 全栈开发者',
+  tagline: '把复杂系统做清楚，把技术变成可用的产品',
   description:
-    '热爱技术，追求美学。在这里记录我的思考、项目和成长，用代码创造简洁而优雅的体验。',
-  email: 'hello@example.com', // TODO: 改为你的邮箱
-  url: process.env.NEXT_PUBLIC_SERVER_URL || 'https://example.vercel.app',
+    '专注于 AI 应用工程与全栈产品化——从 RAG、模型网关到桌面工具，关注的不只是模型能力，还有可靠性、交互与真正可用的交付。',
+  email: 'chun556699@gmail.com',
+  url: process.env.NEXT_PUBLIC_SERVER_URL || 'https://chun556699.github.io/personal-homepage',
   socials: {
     github: 'https://github.com/Chun556699',
-    twitter: 'https://x.com/', // TODO: 改为你的 X/Twitter 主页
+    twitter: 'https://x.com/isokchun',
+    blog: 'https://www.mychun.cn',
   },
   /** 是否显示“可接受新机会”徽章 */
   availableForWork: true,
@@ -24,15 +25,15 @@ export const site = {
 
 export const skills = [
   'TypeScript',
+  'Python',
   'React',
   'Next.js',
-  'Node.js',
+  'FastAPI',
+  'Electron',
   'Tailwind CSS',
-  'PostgreSQL',
-  'Redis',
+  'PyTorch',
   'Docker',
-  'Python',
-  'AI/LLM 应用',
+  'RAG / LLM 应用',
 ] as const
 
 export type Project = {
@@ -44,34 +45,39 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    name: '闪念录屏 Flash Recorder',
+    description: '「点击即聚焦」的丝滑局部放大录屏工具：鼠标为中心平滑放大 2x/3x/5x，多录制源、光标特效、MP4 导出。',
+    tags: ['Electron', '桌面工具', '录屏'],
+    href: 'https://github.com/Chun556699/Flash-Recorder',
+  },
+  {
+    name: 'RAG KnowledgeBase',
+    description: '检索增强知识库问答系统：向量检索 + LLM 问答，面向实际可用的 AI 知识检索工作流。',
+    tags: ['Python', 'RAG', 'LLM'],
+    href: 'https://github.com/Chun556699/RAG-KnowledgeBase',
+  },
+  {
+    name: 'AI Gateway',
+    description: '一个 key 聚合多家 AI 服务的中转网关，统一入口管理模型调用。',
+    tags: ['FastAPI', 'LLM', '网关'],
+    href: 'https://github.com/Chun556699/ai-Integration',
+  },
+  {
+    name: 'Transformer 并行翻译',
+    description: '基于 Transformer 架构的多语言翻译系统，覆盖从模型训练到部署的完整链路。',
+    tags: ['PyTorch', 'NLP', 'Transformer'],
+    href: 'https://github.com/Chun556699/Transformer-parallel-translation',
+  },
+  {
     name: 'AI 简历编辑器',
     description: '所见即所得的简历编辑器，集成 AI 润色与一键 PDF 导出。',
     tags: ['Next.js', 'AI', '产品'],
-    href: 'https://github.com/Chun556699',
+    href: 'https://github.com/Chun556699/resume-builder',
   },
   {
-    name: 'AI 助手平台',
-    description: '基于大语言模型的对话系统，支持多轮对话、工具调用与 RAG 检索增强。',
-    tags: ['LLM', 'RAG', 'Node.js'],
-  },
-  {
-    name: '数据可视化平台',
-    description: '实时监控仪表盘，支持自定义图表、阈值告警与大屏展示。',
-    tags: ['React', 'WebSocket'],
-  },
-  {
-    name: '设计系统',
-    description: '企业级组件库，50+ 高质量组件，覆盖主题定制与无障碍访问。',
-    tags: ['组件库', '设计工程'],
-  },
-  {
-    name: 'API 网关',
-    description: '微服务统一入口，限流、鉴权、日志一体化，支撑日均百万请求。',
-    tags: ['Node.js', '架构'],
-  },
-  {
-    name: 'DevOps 工具链',
-    description: 'CI/CD 自动化流水线，从提交到上线一键完成。',
-    tags: ['Docker', '自动化'],
+    name: '本站 · 个人主页',
+    description: '极简高性能个人站：静态优先渲染、Payload CMS 写作后台、深浅色主题与全套 SEO。',
+    tags: ['Next.js 16', 'Payload CMS', 'Tailwind 4'],
+    href: 'https://github.com/Chun556699/personal-homepage',
   },
 ]
